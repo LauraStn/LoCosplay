@@ -1,9 +1,20 @@
 const { pool } = require("../Services/Connexion");
 require('dotenv').config()
 const { Cosplay } = require("../Models/Cosplay");
+const { extractToken } = require("../Utils/extractToken");
+const { verifyToken } = require("../Utils/verifyToken");
 
 const addCosplay = async (req, res) =>{
-   try {
+    const data = await verifyToken(req)
+    if(!data){
+      return
+    }
+    try {
+        if(data.role_id !== 1){
+        res.status(401).json({ error: 'Unauthorized' })
+        return
+    }
+
     if(
         !req.body.name ||
         !req.body.size ||
@@ -26,7 +37,6 @@ const addCosplay = async (req, res) =>{
 
    } catch (error) {
     res.status(500).json({error: error.stack})
-    console.log("error");
    }
     
 }
@@ -34,10 +44,10 @@ const getAllCosplay = async (req, res) =>{
     try {
         const [rows] = await pool.query(`SELECT * FROM cosplay`)
         res.status(200).json(rows)
-        console.log('200');
+        return
     } catch (error) {
         res.status(500).json({error: error.stack})
-        console.log(process.env.MYSQL_DATABASE.length);
+        return
     }
 }
 
@@ -52,9 +62,21 @@ const getOneCosplay = async (req, res) =>{
         res.status(500).json({error: error.stack})
     }
 }
+
 const updateCosplay  = async (req, res) =>{
-    
+    const verify = await verifyToken(req)
+
+    if(!verify){
+        res.status(401).json({ error: 'Unauthorized' })
+        return
+    }
+    console.log(verify);
+
     try {
+        if(verify.role_id !== 1){
+            res.status(401).json({ error: 'Unauthorized' })
+            return    
+        }
         const id = req.params.id
         const {name, size, price, stock} = req.body
         const data = []
@@ -88,7 +110,17 @@ const updateCosplay  = async (req, res) =>{
     }
 }
 const deleteCosplay = async (req, res) => {
+    const data = await verifyToken(req)
+    if(!data){
+        res.status(401).json({ error: 'Unauthorized' })
+        return
+    }
+    console.log(data);
     try {
+        if(data.role_id !== 1){
+            res.status(401).json({ error: 'Unauthorized' })
+            return    
+        }
         const id = req.params.id
 
         const sql = `DELETE FROM cosplay WHERE id =?`

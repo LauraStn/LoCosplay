@@ -4,6 +4,7 @@ require('dotenv').config()
 const { User } = require("../Models/User");
 const bcrypt = require('bcrypt');
 const { extractToken } = require("../Utils/extractToken");
+const { verifyToken } = require("../Utils/verifyToken");
 
 const register = async (req, res) => {
     try {
@@ -34,7 +35,6 @@ const register = async (req, res) => {
     const email = [user.email]
     const sqlverif = `SELECT email FROM user WHERE email=?`
     const [verifEMail] = await pool.execute(sqlverif, email)
-  
     if(verifEMail.length>0){
       res.status(400).json({message: "email already used"});
       return
@@ -42,6 +42,8 @@ const register = async (req, res) => {
     const sql = `INSERT INTO user (email, password, first_name, last_name, address) VALUES (?,?,?,?,?)`
     const values = [user.email,user.password,user.first_name,user.last_name,user.address]
     const [rows] = await pool.execute(sql, values);
+    console.log(user);
+
     res.status(201).json(rows);
         } catch (err) {
           res.status(500).json({error: err.stack})
@@ -58,11 +60,11 @@ const getAllUsers = async (req, res) => {
     }
 };
 const updateUser = async (req, res) => {
+  
       try {
         const data = req.data;
         const values = req.values;
-        console.log(data);
-        const sql = `UPDATE user SET ${data} WHERE id=?`;
+        const [sql] = `UPDATE user SET ${data} WHERE id=?`;
         const [result] = await pool.execute(sql, values);
         res.status(200).json(result);
       } catch (error) {
@@ -71,18 +73,23 @@ const updateUser = async (req, res) => {
       }
 };
 const deleteUser = async (req, res) => {
-  try {
-    const id= req.params.id
-    const values = [id]
-    const sql = `DELETE FROM user WHERE id = ?`;
+        const data = await verifyToken(req)
+        if(!data){
+            res.status(401).json({ error: 'Unauthorized' })
+            return
+        }
+              try {
+                const id= data.id
+                const values = [id]
+                const sql = `DELETE FROM user WHERE id = ?`;
 
-    const [result] = await pool.execute(sql, values)
-  res.status(200).json(result);
-
-  } catch (error) {
-    console.log(error.stack);
-    res.status(500).json({ message: "erreur serveur" });
-  }
+                const [result] = await pool.execute(sql, values)
+                res.status(200).json(result);
+                
+              } catch (error) {
+                console.log(error.stack);
+                res.status(500).json({ message: "erreur serveur" });
+              }
 };
 
 const getOneUser = async (req,res) => {
@@ -111,8 +118,8 @@ const login = async (req, res) => {
   const sql = `SELECT * FROM user WHERE email=?`
   const [user] = await pool.execute(sql, values)
   console.log(user);
-  if(!user.length>0){
-    res.status(204).json({ error: 'No content'});
+  if(!user.length){
+    res.status(401).json({ error: 'Email not found'});
     return
   } 
     const isValidPassword = await bcrypt.compare(password, user[0].password)
