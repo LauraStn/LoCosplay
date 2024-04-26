@@ -6,16 +6,16 @@ const verifRegisterData = async (req, res, next) => {
   const email = req.body.email
   const address = req.body.adress
 
-  if (!validator.isAlpha(last_name)) {
+  if (!validator.isAlpha(last_name, undefined, {ignore:" -"})) {
     return res.json({ message: "le nom doit contenir que des lettres" });
   }
-  if (!validator.isAlpha(first_name)) {
+  if (!validator.isAlpha(first_name, undefined, {ignore:" -"})) {
     return res.json({ message: "le nom doit contenir que des lettres" });
   }
   if(!validator.isEmail(email)){
     return res.json({ message: "L'email doit avoir un format d'email" });
   }
-  // if(!validator.isAlphanumeric(address)){
+  // if(!validator.isAlphanumeric(address, undefined, {ignore:" -"})){
   //   return res.json({ message: "adress incorrecte" });
   // }
   
@@ -28,7 +28,12 @@ const verifRegisterData = async (req, res, next) => {
 };
 
 const verifUserUpdate = async (req, res, next) => {
-    const id = req.params.id;
+  const verify = await verifyToken(req)
+  if(!verify){
+      res.status(401).json({ error: 'Unauthorized' })
+      return
+  }
+    const id = verify.id;
     const { first_name, last_name, email, address } = req.body;
     let data = [];
     let values = [];

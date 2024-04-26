@@ -3,7 +3,7 @@ const { rental, getAllRental, getAllMyRental } = require("../Controllers/rentalC
 
 const router = express.Router()
 
-router.post("/add/:id", rental )
+router.post("/add/:product_id", rental )
 router.get('/all', getAllRental)
 router.get('/mine', getAllMyRental)
 // router.patch('/update/:id',  updateCosplay)
