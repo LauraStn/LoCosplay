@@ -7,8 +7,8 @@ const router = express.Router()
 router.post("/register", verifRegisterData, register)
 router.get('/all', getAllUsers)
 router.patch('/update/:id', verifUserUpdate, updateUser)
-router.delete('/delete/:id', deleteUser)
-router.get('/getone/:id', getOneUser)
+router.delete('/delete', deleteUser)
+router.get('/one', getOneUser)
 router.post('/login', login)
 
 module.exports = router

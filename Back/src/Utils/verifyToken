@@ -6,7 +6,7 @@ const verifyToken = async (req, res) => {
     const token = await extractToken(req)
     if(!token){
         res.status(400).json({ error: 'Bad request' })
-            return
+        return
     }
      return jwt.verify(token, process.env.SECRET_KEY, async (error, data)=>{
         if (error) {

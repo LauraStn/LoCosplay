@@ -52,7 +52,7 @@ const register = async (req, res) => {
 };
 const getAllUsers = async (req, res) => {
     try {
-      const rows = await pool.query("SELECT * FROM user");
+      const [rows] = await pool.query("SELECT * FROM user");
       console.log(rows);
       res.json(rows);
     } catch (err) {
@@ -93,8 +93,13 @@ const deleteUser = async (req, res) => {
 };
 
 const getOneUser = async (req,res) => {
+  const data = await verifyToken(req)
+        if(!data){
+            res.status(401).json({ error: 'Unauthorized' })
+            return
+        }
   try{
-  const id = req.params.id;
+  const id = data.id
   const values = [id]
   const sql = `SELECT * FROM user WHERE id=?`
   

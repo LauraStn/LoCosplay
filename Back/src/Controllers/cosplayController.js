@@ -132,4 +132,45 @@ const deleteCosplay = async (req, res) => {
         
     }
 }
-module.exports = {addCosplay, getAllCosplay, getOneCosplay, updateCosplay, deleteCosplay}
+
+const adminGetStock = async (req, res) => {
+    const data = await verifyToken(req)
+    if(!data){
+        res.status(401).json({ error: 'Unauthorized' })
+        return
+    }
+    try {
+        if(data.role_id !== 1){
+            res.status(401).json({ error: 'Unauthorized' })
+            return    
+        }
+        const [rows] = await pool.query(`SELECT * FROM cosplay WHERE cosplay.stock>0;`)
+        res.status(200).json(rows)
+        return
+    } catch (error) {
+        res.status(500).json({error: error.stack})
+        
+    }
+} 
+
+const searchCosplay = async (req, res) => {
+    const data = await verifyToken(req)
+    if(!data){
+      return
+    }
+    try {
+        if(data.role_id !== 1){
+        res.status(401).json({ error: 'Unauthorized' })
+        return
+    }
+        const search = req.body.search
+        const [rows] = await pool.query(`SELECT * FROM cosplay WHERE name LIKE "%${search}%"`)
+        res.status(200).json(rows)
+}   catch (error) {
+        res.status(500).json({error: error.stack})
+        console.log("500");
+        return
+    }
+}
+
+module.exports = {addCosplay, getAllCosplay, getOneCosplay, updateCosplay, deleteCosplay, adminGetStock, searchCosplay}
