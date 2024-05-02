@@ -19,7 +19,7 @@ router.patch("/update/:id", updateCosplay);
 router.delete("/delete/:id", deleteCosplay);
 router.get("/one/:id", getOneCosplay);
 router.get("/stock", adminGetStock);
-router.get("/search", searchCosplay);
+router.post("/search", searchCosplay);
 router.get("/notrented", getCosplayNotRented);
 
 module.exports = router;

@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>LoCosplay</title>
     </head>
-    <body>
+    <body class="bg-gray-100">
         <header
             class="header sticky top-0 bg-white shadow-md flex items-center justify-between px-8 py-02"
         >
@@ -15,7 +15,7 @@
                         class="flex items-center border-b border-b-2 border-teal-500 py-2"
                     >
                         <input
-                            class="bg-transparent border-none mr-3 px-2 leading-tight focus:outline-none"
+                            class="searchCosplay bg-transparent border-none mr-3 px-2 leading-tight focus:outline-none"
                             type="text"
                             placeholder="Search"
                         />
@@ -97,18 +97,28 @@
             </div>
         </header>
         <main class="bg-gray-100">
-            <section class="h-screen p-8">
+            <section class="p-8">
                 <h1 class="text-center font-bold text-2xl text-black">
-                    All my rentals
+                    All my rentals active
                 </h1>
 
                 <div
-                    class="myrental grid justify-center md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7 my-10"
+                    class="myRentalActive grid justify-center md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7 my-10"
+                ></div>
+            </section>
+            <section class="p-8">
+                <h1 class="text-center font-bold text-2xl text-black">
+                    All my rentals archived
+                </h1>
+
+                <div
+                    class="myRentalArchived grid justify-center md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7 my-10"
                 ></div>
             </section>
         </main>
     </body>
     <script src="../../Assets/js/auth.js"></script>
     <script src="../../Assets/js/rental.js"></script>
+    <script src="../../Assets/js/cosplay.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </html>

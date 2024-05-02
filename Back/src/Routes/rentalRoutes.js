@@ -2,9 +2,11 @@ const express = require("express");
 const {
   rental,
   getAllRentalActive,
-  getAllMyRental,
   returnRental,
   getAllRentalNotActive,
+  deleteRental,
+  getAllMyRentalActive,
+  getAllMyRentalArchived,
 } = require("../Controllers/rentalController");
 
 const router = express.Router();
@@ -12,9 +14,9 @@ const router = express.Router();
 router.post("/add/:product_id", rental);
 router.get("/allactive", getAllRentalActive);
 router.get("/allnotactive", getAllRentalNotActive);
-router.get("/mine", getAllMyRental);
-// router.patch('/update/:id',  updateCosplay)
+router.get("/mineactive", getAllMyRentalActive);
+router.get("/minearchived", getAllMyRentalArchived);
 router.patch("/update/:rental_id", returnRental);
-// router.get('/one/:id', getOneCosplay)
+router.delete("/delete/:rental_id", deleteRental);
 
 module.exports = router;

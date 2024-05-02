@@ -11,12 +11,11 @@ const rental = async (req, res) => {
   const data = await verifyToken(req);
   if (!data) {
     res.status(401).json({ error: "Unauthorized" });
-    console.log(data);
     return;
   }
   try {
     const stockValue = [product_id];
-    const stockSql = `SELECT stock FROM cosplay WHERE id=?`;
+    const stockSql = `SELECT stock FROM cosplay WHERE cosplay_id=?`;
     const [stock] = await pool.execute(stockSql, stockValue);
     if (stock[0].stock === 0) {
       res.status(401).json({ error: "sold out" });
@@ -24,14 +23,14 @@ const rental = async (req, res) => {
       return;
     }
     const newRental = new Rental(
-      data.id,
+      data.user_id,
       product_id,
       req.body.reservation_start,
       req.body.reservation_end,
       true
     );
     const values = [
-      data.id,
+      data.user_id,
       product_id,
       newRental.reservation_start,
       newRental.reservation_end,
@@ -44,9 +43,11 @@ const rental = async (req, res) => {
     return;
   } catch (error) {
     res.status(500).json({ error: error.stack });
+    console.log("error");
     return;
   }
 };
+
 const getAllRentalActive = async (req, res) => {
   const data = await verifyToken(req);
   if (!data) {
@@ -56,9 +57,10 @@ const getAllRentalActive = async (req, res) => {
   try {
     if (data.role_id === 1) {
       const [rows] = await pool.execute(
-        `SELECT * FROM rental INNER JOIN cosplay ON rental.cosplay_id = cosplay.cosplay_id INNER JOIN user ON rental.user_id= user.user_id WHERE is_active=1 `
+        `SELECT * FROM rental INNER JOIN cosplay ON rental.cosplay_id = cosplay.cosplay_id INNER JOIN user ON rental.user_id= user.user_id WHERE rental.is_active=1 `
       );
       res.status(200).json(rows);
+      console.log(rows);
       return;
     } else {
       res.status(401).json({ error: "Unauthorized" });
@@ -78,7 +80,7 @@ const getAllRentalNotActive = async (req, res) => {
   try {
     if (data.role_id === 1) {
       const [rows] = await pool.execute(
-        `SELECT * FROM rental INNER JOIN cosplay ON rental.cosplay_id = cosplay.cosplay_id INNER JOIN user ON rental.user_id= user.user_id WHERE is_active=0 `
+        `SELECT * FROM rental INNER JOIN cosplay ON rental.cosplay_id = cosplay.cosplay_id INNER JOIN user ON rental.user_id= user.user_id WHERE rental.is_active=0 `
       );
       res.status(200).json(rows);
       return;
@@ -91,15 +93,31 @@ const getAllRentalNotActive = async (req, res) => {
   }
 };
 
-const getAllMyRental = async (req, res) => {
+const getAllMyRentalActive = async (req, res) => {
   const data = await verifyToken(req);
   if (!data) {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
   try {
-    const values = [data.id];
-    const sql = `SELECT * FROM rental INNER JOIN cosplay ON rental.cosplay_id = cosplay.cosplay_id WHERE user_id= ?`;
+    const values = [data.user_id];
+    const sql = `SELECT * FROM rental INNER JOIN cosplay ON rental.cosplay_id = cosplay.cosplay_id WHERE user_id= ? AND is_active= 1`;
+    const [rows] = await pool.execute(sql, values);
+    res.status(200).json(rows);
+  } catch (error) {
+    res.status(500).json({ error: error.stack });
+  }
+};
+
+const getAllMyRentalArchived = async (req, res) => {
+  const data = await verifyToken(req);
+  if (!data) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
+  try {
+    const values = [data.user_id];
+    const sql = `SELECT * FROM rental INNER JOIN cosplay ON rental.cosplay_id = cosplay.cosplay_id WHERE user_id= ? AND is_active= 0`;
     const [rows] = await pool.execute(sql, values);
     res.status(200).json(rows);
   } catch (error) {
@@ -132,10 +150,32 @@ const returnRental = async (req, res) => {
     return;
   }
 };
+
+const deleteRental = async (req, res) => {
+  const data = await verifyToken(req);
+  if (!data) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
+  try {
+    const id = req.params.rental_id;
+    console.log(data);
+    const sql = `DELETE FROM rental WHERE rental_id =? AND user_id=?`;
+    const values = [id, data.user_id];
+    console.log(values);
+    const [rows] = await pool.execute(sql, values);
+    res.status(200).json({ success: true, msg: "Deleted" });
+  } catch (error) {
+    res.status(500).json({ error: error.stack });
+  }
+};
+
 module.exports = {
   rental,
   getAllRentalActive,
-  getAllMyRental,
+  getAllMyRentalActive,
+  getAllMyRentalArchived,
   returnRental,
   getAllRentalNotActive,
+  deleteRental,
 };

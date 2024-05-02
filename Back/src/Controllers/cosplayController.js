@@ -47,6 +47,7 @@ const addCosplay = async (req, res) => {
     res.status(500).json({ error: error.stack });
   }
 };
+
 const getAllCosplay = async (req, res) => {
   try {
     const [rows] = await pool.query(`SELECT * FROM cosplay`);
@@ -120,6 +121,7 @@ const updateCosplay = async (req, res) => {
     console.log("500");
   }
 };
+
 const deleteCosplay = async (req, res) => {
   const data = await verifyToken(req);
   if (!data) {
@@ -164,17 +166,7 @@ const adminGetStock = async (req, res) => {
 };
 
 const searchCosplay = async (req, res) => {
-  const data = await verifyToken(req);
-  if (!data) {
-    res.status(401).json({ error: "Unauthorized" });
-
-    return;
-  }
   try {
-    if (data.role_id !== 1) {
-      res.status(401).json({ error: "Unauthorized" });
-      return;
-    }
     const search = req.body.search;
     const [rows] = await pool.query(
       `SELECT * FROM cosplay WHERE name LIKE "%${search}%"`
@@ -185,6 +177,7 @@ const searchCosplay = async (req, res) => {
     return;
   }
 };
+
 const getCosplayNotRented = async (req, res) => {
   const data = await verifyToken(req);
   if (!data) {
@@ -208,6 +201,7 @@ const getCosplayNotRented = async (req, res) => {
     return;
   }
 };
+
 module.exports = {
   addCosplay,
   getAllCosplay,

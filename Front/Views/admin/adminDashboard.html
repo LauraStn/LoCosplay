@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>LoCosplay</title>
     </head>
-    <body>
+    <body class="bg-gray-100">
         <header
             class="header sticky top-0 bg-white shadow-md flex items-center justify-between px-8 py-02"
         >
@@ -15,12 +15,13 @@
                         class="flex items-center border-b border-b-2 border-teal-500 py-2"
                     >
                         <input
-                            class="bg-transparent border-none mr-3 px-2 leading-tight focus:outline-none"
+                            class="searchCosplay bg-transparent border-none mr-3 px-2 leading-tight focus:outline-none"
                             type="text"
                             placeholder="Search"
                         />
                         <button
                             type="submit"
+                            onclick="adminSearchCosplay()"
                             class="absolute right-0 top-0 mt-3 mr-4"
                         >
                             <svg
@@ -91,7 +92,16 @@
                 </a>
             </div>
         </header>
-        <main class="bg-gray-100">
+        <section class="searchResults hidden p-7">
+            <h1 class="text-center font-bold text-2xl text-black">
+                Search results
+            </h1>
+
+            <div
+                class="displaySearch grid justify-center md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7 my-10"
+            ></div>
+        </section>
+        <main class="main bg-gray-100">
             <div
                 class="addCosplay z-11 bg-gray-100 min-h-screen flex items-center justify-center"
             >
@@ -142,19 +152,6 @@
                                 class="mt-1 p-2 w-full border rounded-md"
                             />
                         </div>
-                        <!-- <div class="mt-4">
-                            <label
-                                for="image"
-                                class="block text-sm font-medium text-gray-700"
-                                >Image</label
-                            >
-                            <input
-                                type="file"
-                                id="image"
-                                name="image"
-                                class="mt-1 p-2 w-full border rounded-md"
-                            />
-                        </div> -->
                         <div class="mt-4">
                             <label
                                 for="image"
@@ -198,7 +195,7 @@
                 </div>
             </div>
             <div class="flex flex-col">
-                <section class="p-8">
+                <section class="p-8 bg-gray-100">
                     <h1 class="text-center font-bold text-2xl text-black">
                         All cosplays
                     </h1>
@@ -206,7 +203,6 @@
                     <div
                         class="cosplaysAdmin grid justify-center md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7 my-10"
                     ></div>
-                    <div id="edit"></div>
                 </section>
                 <div
                     id="edit"
@@ -221,7 +217,7 @@
                         class="allRentalActive grid justify-center md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7 my-10"
                     ></div>
                 </section>
-                <section class="p-8">
+                <section class="p-8 bg-gray-100">
                     <h1 class="text-center font-bold text-2xl text-black">
                         Cosplays not rented
                     </h1>
