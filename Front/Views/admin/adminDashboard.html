@@ -5,14 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>LoCosplay</title>
     </head>
-    <body class="bg-gray-100">
+    <body class="bg-gradient-to-b from-[#063970] to-blue-200">
         <header
-            class="header sticky top-0 bg-white shadow-md flex items-center justify-between px-8 py-02"
+            class="header sticky top-0 bg-blue-200 shadow-md flex items-center justify-between px-8 py-02 z-650"
         >
             <div class="w-2/12">
                 <div class="relative text-lg bg-transparent text-gray-800">
                     <div
-                        class="flex items-center border-b border-b-2 border-teal-500 py-2"
+                        class="flex items-center border-b border-b-2 border-blue-500 py-2"
                     >
                         <input
                             class="searchCosplay bg-transparent border-none mr-3 px-2 leading-tight focus:outline-none"
@@ -49,31 +49,31 @@
             <nav class="nav font-semibold text-lg">
                 <ul class="flex items-center">
                     <li
-                        class="p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer active"
+                        class="p-4 border-b-2 border-blue-500 border-opacity-0 hover:border-opacity-100 hover:text-blue-500 duration-200 cursor-pointer active"
                     >
                         <a href="../../index.html">Accueil</a>
                     </li>
                     <li
-                        class="p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer"
+                        class="p-4 border-b-2 border-blue-500 border-opacity-0 hover:border-opacity-100 hover:text-blue-500 duration-200 cursor-pointer"
                     >
                         <a href="../user/contact.html">Contact</a>
                     </li>
                     <li
-                        class="adminDashboardBtn text-green-500 p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer"
+                        class="adminDashboardBtn text-blue-500 p-4 border-b-2 border-blue-500 border-opacity-0 hover:border-opacity-100 hover:text-blue-500 duration-200 cursor-pointer"
                     >
                         <a href="./adminDashboard.html">Dashboard</a>
                     </li>
                     <li
-                        class="logoutBtn p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer"
+                        class="logoutBtn p-4 border-b-2 border-blue-500 border-opacity-0 hover:border-opacity-100 hover:text-blue-500 duration-200 cursor-pointer"
                     >
                         <a href="../../index.html">Logout</a>
                     </li>
                 </ul>
             </nav>
             <div class="w-3/12 flex justify-end">
-                <a href="">
+                <a href="../user/contact.html">
                     <svg
-                        class="h-8 p-1 hover:text-green-500 duration-200"
+                        class="h-8 p-1 hover:text-blue-500 duration-200"
                         aria-hidden="true"
                         focusable="false"
                         data-prefix="far"
@@ -101,12 +101,12 @@
                 class="displaySearch grid justify-center md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7 my-10"
             ></div>
         </section>
-        <main class="main bg-gray-100">
+        <main class="main">
             <div
-                class="addCosplay z-11 bg-gray-100 min-h-screen flex items-center justify-center"
+                class="addCosplay z-11 min-h-screen flex items-center justify-center"
             >
                 <div
-                    class="bg-white p-8 rounded shadow-md max-w-md w-full mx-auto"
+                    class="bg-blue-200 p-8 rounded shadow-md max-w-md w-full mx-auto"
                 >
                     <h2 class="text-2xl font-semibold mb-4">
                         Add a new Cosplay
@@ -172,7 +172,7 @@
                             ></label>
                             <select
                                 id="size"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 border-gray-600 placeholder-gray-400 focus:ring-cyan-600 focus:border-cyan-600"
                             >
                                 <option selected>Choose a size</option>
                                 <option value="S">S</option>
@@ -186,7 +186,7 @@
                         </div>
                         <div class="mt-6">
                             <button
-                                class="addCosplayBtn w-full p-3 bg-green-500 text-white rounded-md hover:bg-green-600"
+                                class="addCosplayBtn w-full p-3 bg-cyan-600 text-white rounded-md hover:bg-cyan-800"
                             >
                                 Add
                             </button>
@@ -195,7 +195,7 @@
                 </div>
             </div>
             <div class="flex flex-col">
-                <section class="p-8 bg-gray-100">
+                <section class="p-8">
                     <h1 class="text-center font-bold text-2xl text-black">
                         All cosplays
                     </h1>
@@ -206,7 +206,7 @@
                 </section>
                 <div
                     id="edit"
-                    class="hidden w-full absolute top-0 bottom-0 left-0 right-0 h-screen"
+                    class="hidden bg-gradient-to-b from-[#063970] to-blue-200 absolute top-16 bottom-0 left-0 right-0"
                 ></div>
                 <section class="p-8">
                     <h1 class="text-center font-bold text-2xl text-black">
@@ -217,7 +217,7 @@
                         class="allRentalActive grid justify-center md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7 my-10"
                     ></div>
                 </section>
-                <section class="p-8 bg-gray-100">
+                <section class="p-8">
                     <h1 class="text-center font-bold text-2xl text-black">
                         Cosplays not rented
                     </h1>

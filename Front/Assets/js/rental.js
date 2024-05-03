@@ -17,7 +17,7 @@ async function getMyRentalActive() {
     let result = await getAll.json()
 
     result.forEach((element) => {
-        displayMyRentalActive.innerHTML += `<div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700">
+        displayMyRentalActive.innerHTML += `<div class="w-full max-w-sm bg-blue-200 shadow-md rounded-lg shadow">
         <a href="#">
             <img class="p-8 rounded-t-lg" src="${
                 element.image
@@ -67,7 +67,7 @@ async function getMyRentalArchived() {
     let result = await getAll.json()
 
     result.forEach((element) => {
-        displayMyRentalArchived.innerHTML += `<div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700">
+        displayMyRentalArchived.innerHTML += `<div class="w-full max-w-sm bg-blue-200 shadow-md rounded-lg shadow dark:border-gray-700">
         <a href="#">
             <img class="p-8 rounded-t-lg" src="${
                 element.image
@@ -121,7 +121,7 @@ async function getAllRentalActive() {
     const result = await getAll.json()
 
     result.forEach((element) => {
-        allRentalActive.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700">
+        allRentalActive.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-blue-200  shadow-md rounded-lg shadow dark:border-gray-700">
         <div class="px-5 pb-5">
             <p class="text-blue-800 text-s font-semibold text-left py-0.5 rounded text-blue-800">User: ${
                 element.first_name
@@ -179,7 +179,7 @@ async function getAllRentalArchived() {
     const result = await getAll.json()
 
     result.forEach((element) => {
-        allRentalArchived.innerHTML += `<div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700">
+        allRentalArchived.innerHTML += `<div class="w-full max-w-sm bg-blue-200 shadow-md rounded-lg shadow dark:border-gray-700">
                 <div class="px-5 pb-5">
                     <p class="text-blue-800 text-s font-semibold text-left py-0.5 rounded text-blue-800">User: ${
                         element.first_name

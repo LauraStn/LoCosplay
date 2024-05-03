@@ -5,7 +5,7 @@ const { User } = require("../Models/User");
 const bcrypt = require("bcrypt");
 const { extractToken } = require("../Utils/extractToken");
 const { verifyToken } = require("../Utils/verifyToken");
-const { transporter } = require("../Services/mailer");
+// const { transporter } = require("../Services/mailer");
 
 const register = async (req, res) => {
   try {
@@ -21,8 +21,8 @@ const register = async (req, res) => {
       return;
     }
     const hashedPassword = await bcrypt.hash(req.body.password + "", 10);
-    let activationToken = await bcrypt.hash(req.body.email, 10);
-    activationToken = activationToken.replaceAll("/", "");
+    // let activationToken = await bcrypt.hash(req.body.email, 10);
+    // activationToken = activationToken.replaceAll("/", "");
 
     const user = new User(
       req.body.email,
@@ -31,7 +31,7 @@ const register = async (req, res) => {
       req.body.first_name,
       req.body.last_name,
       req.body.address,
-      activationToken,
+      // activationToken,
       new Date(),
       new Date(),
       new Date()
@@ -44,26 +44,26 @@ const register = async (req, res) => {
       return;
     }
     console.log(user.email);
-    const sql = `INSERT INTO user (email, password, first_name, last_name, address, token) VALUES (?,?,?,?,?,?)`;
+    const sql = `INSERT INTO user (email, password, first_name, last_name, address) VALUES (?,?,?,?,?)`;
     const values = [
       user.email,
       user.password,
       user.first_name,
       user.last_name,
       user.address,
-      user.token,
+      // user.token,
     ];
     const [rows] = await pool.execute(sql, values);
 
-    const info = await transporter.sendMail({
-      from: `${process.env.SMTP_EMAIL}`,
-      to: user.email,
-      subject: "Account activation",
-      text: "Activate your email",
-      html: `<p>You need to activate your email, to access our services, please click on this link: <a href="http://localhost:440/user/activate/${activationToken}">Activate your email</a></p>`,
-    });
+    // const info = await transporter.sendMail({
+    //   from: `${process.env.SMTP_EMAIL}`,
+    //   to: user.email,
+    //   subject: "Account activation",
+    //   text: "Activate your email",
+    //   html: `<p>You need to activate your email, to access our services, please click on this link: <a href="http://localhost:440/user/activate/${activationToken}">Activate your email</a></p>`,
+    // });
 
-    console.log("Message sent: %s", info.messageId);
+    // console.log("Message sent: %s", info.messageId);
 
     res.status(201).json(rows);
   } catch (err) {
@@ -142,7 +142,7 @@ const login = async (req, res) => {
       return;
     }
     const values = [email];
-    const sql = `SELECT * FROM user WHERE email=? AND is_active=1`;
+    const sql = `SELECT * FROM user WHERE email=?`;
     const [user] = await pool.execute(sql, values);
     if (!user.length) {
       res.status(401).json({ error: "Email not found" });
@@ -174,23 +174,23 @@ const login = async (req, res) => {
   }
 };
 
-const validateAccount = async (req, res) => {
-  try {
-    const token = req.params.token;
-    const sql = `SELECT * FROM user WHERE token=?`;
-    const value = [token];
-    const [result] = await pool.execute(sql, value);
-    if (!result) {
-      res.status(204).json("no content");
-      return;
-    }
-    await pool.query(`UPDATE user SET is_active=1 WHERE token=?`, [value]);
-    res.status(200).json({ result: "good" });
-  } catch (error) {
-    res.status(500).json({ error: error.stack });
-    return;
-  }
-};
+// const validateAccount = async (req, res) => {
+//   try {
+//     const token = req.params.token;
+//     const sql = `SELECT * FROM user WHERE token=?`;
+//     const value = [token];
+//     const [result] = await pool.execute(sql, value);
+//     if (!result) {
+//       res.status(204).json("no content");
+//       return;
+//     }
+//     await pool.query(`UPDATE user SET is_active=1 WHERE token=?`, [value]);
+//     res.status(200).json({ result: "good" });
+//   } catch (error) {
+//     res.status(500).json({ error: error.stack });
+//     return;
+//   }
+// };
 
 module.exports = {
   register,
@@ -199,5 +199,4 @@ module.exports = {
   deleteUser,
   getOneUser,
   login,
-  validateAccount,
 };

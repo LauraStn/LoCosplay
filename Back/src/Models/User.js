@@ -6,7 +6,7 @@ class User {
     first_name,
     last_name,
     address,
-    token,
+    // token,
     gdpr,
     created_at,
     update_at
@@ -17,7 +17,7 @@ class User {
     this.first_name = first_name;
     this.last_name = last_name;
     this.address = address;
-    this.token = token;
+    // this.token = token;
     this.gdpr = gdpr;
     this.createdAt = created_at;
     this.updateAt = update_at;

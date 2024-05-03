@@ -18,6 +18,6 @@ router.patch("/update/:id", verifUserUpdate, updateUser);
 router.delete("/delete", deleteUser);
 router.get("/one", getOneUser);
 router.post("/login", login);
-router.patch("/activate/:token", validateAccount);
+// router.patch("/activate/:token", validateAccount);
 
 module.exports = router;

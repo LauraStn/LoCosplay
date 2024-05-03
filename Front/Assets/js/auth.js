@@ -85,12 +85,13 @@ async function login() {
             return
         } else {
             setTimeout(() => {
-                window.location.href = '../../Views/user/userDashboard.html'
+                window.location.href = '../../Views/user/cosplay.html'
             }, '3000')
             return
         }
     }
 }
+
 if (signInBtn) {
     signInBtn.addEventListener('click', (e) => {
         e.preventDefault()

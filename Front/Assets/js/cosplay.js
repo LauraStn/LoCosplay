@@ -10,7 +10,7 @@ async function getAllCosplays() {
     const result = await getAll.json()
 
     result.forEach((element) => {
-        displayCosplays.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 p-5">
+        displayCosplays.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-blue-200 shadow-md rounded-lg p-5">
         <a href="#">
             <img class="p-8 rounded-t-lg" src="${element.image}" alt="product image" />
         </a>
@@ -121,7 +121,7 @@ async function getCosplayNotRented() {
     )
     const result = await apiRequest.json()
     result.forEach((element) => {
-        notRented.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-white border border-gray-200 rounded-lg     shadow:border-gray-700">
+        notRented.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-blue-200 shadow-md rounded-lg">
                     <a href="#">
                     <img class="p-8 rounded-t-lg" src="${element.image}" alt="product image" />
                     </a>
@@ -147,7 +147,7 @@ async function getAllCosplaysAdmin() {
     const getAll = await fetch('http://localhost:4400/product/all')
     const result = await getAll.json()
     result.forEach((element) => {
-        cosplaysAdmin.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 p-5">
+        cosplaysAdmin.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-blue-200 shadow-md rounded-lg shadow dark:border-gray-700 p-5">
         <a href="#">
             <img class="p-8 rounded-t-lg" src="${element.image}" alt="product image" />
         </a>
@@ -191,6 +191,7 @@ async function displayEdit(id) {
     allRentalActive.classList.add('hidden')
     allRentalArchived.classList.add('hidden')
     searchResults.classList.add('hidden')
+
     const request = {
         method: 'GET',
         headers: {
@@ -207,7 +208,7 @@ async function displayEdit(id) {
     editModal.innerHTML = `
   <div
     id="editCosplay"
-    class="lg:px-28 md:px-32 sm:px-8 lg:py-16 md:py-20 sm:py-6 py-6 px-8 my-auto mx-auto mt-8 sm:20 lg:w-2/5 rounded-lg bg-white border shadow-md max-w-xs md:max-w-none absolute h-[800px] top-16 bottom-0 left-0 right-0 h-auto overflow-auto z-10"
+    class="lg:px-28 md:px-32 sm:px-8 lg:py-16 md:py-20 sm:py-6 py-6 px-8 my-auto mx-auto mt-8 sm:20 lg:w-2/5 rounded-lg bg-blue-200 border shadow-md max-w-xs md:max-w-none absolute h-[800px] top-0 bottom-0 left-0 right-0 h-auto overflow-auto z-10"
   >
     <h2 class="text-2xl font-semibold mb-4 text-center">Edit your cosplay</h2>
     <form action="#" method="POST">
@@ -381,7 +382,7 @@ async function searchCosplay() {
     const result = await getAll.json()
     displayCosplays.innerHTML = ''
     result.forEach((element) => {
-        displayCosplays.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 p-5">
+        displayCosplays.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-blue-200 shadow-md rounded-lg shadow dark:border-gray-700 p-5">
         <a href="#">
             <img class="p-8 rounded-t-lg" src="${element.image}" alt="product image" />
         </a>
@@ -452,7 +453,7 @@ async function adminSearchCosplay() {
 
     adminSearch.innerHTML = ''
     result.forEach((element) => {
-        adminSearch.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 p-5">
+        adminSearch.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-blue-200 shadow-md rounded-lg shadow dark:border-gray-700 p-5">
         <a href="#">
             <img class="p-8 rounded-t-lg" src="${element.image}" alt="product image" />
         </a>
