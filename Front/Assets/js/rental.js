@@ -278,7 +278,7 @@ async function returnCosplay(id) {
     const result = await apiRequest.json()
     console.log(result)
     if (apiRequest.status === 200) {
-        window.alert('Cosplay deleted !')
+        window.alert('Rent Archived !')
         window.location.reload()
         return
     } else {
@@ -303,6 +303,6 @@ async function deleteRental(id) {
         request
     )
     const result = await apiRequest.json()
-    window.alert('Cosplay deleted !')
+    window.alert('Rent deleted !')
     window.location.reload()
 }

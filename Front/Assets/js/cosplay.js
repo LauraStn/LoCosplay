@@ -317,8 +317,14 @@ async function deleteCosplay(id) {
         request
     )
     const result = await apiRequest.json()
-    window.alert('Cosplay deleted !')
-    window.location.reload()
+    console.log(result)
+    if (result.success === true) {
+        window.alert('Cosplay deleted !')
+        window.location.reload()
+    } else {
+        window.alert("You can't delete a cosplay who is actually rented !")
+        window.location.reload()
+    }
 }
 
 async function updateCosplay(id) {
