@@ -69,7 +69,7 @@ async function login() {
     let result = await apiRequest.json()
 
     if (apiRequest.status !== 200) {
-        loginMsg.innerHTML = `<p class="mt-7 text-center rounded-lg text-red-500 font-bold">Invalid credentials</p>`
+        loginMsg.innerHTML = `<p class="mt-7 text-center rounded-lg text-red-500 font-bold">Invalid credentials or account not actived</p>`
         return
     } else {
         const data = await result
@@ -77,7 +77,7 @@ async function login() {
         window.localStorage.setItem('role_id', data.role_id)
 
         loginMsg.innerHTML = `<p class="mt-7 text-center rounded-lg text-green-500 font-bold">Login successful,<br>
-          you will be redirected to your dashboard</p>`
+        redirect...</p>`
         if (data.role_id === 1) {
             setTimeout(() => {
                 window.location.href = '../../Views/admin/adminDashboard.html'
@@ -85,12 +85,13 @@ async function login() {
             return
         } else {
             setTimeout(() => {
-                window.location.href = '../../Views/user/userDashboard.html'
+                window.location.href = '../../Views/user/cosplay.html'
             }, '3000')
             return
         }
     }
 }
+
 if (signInBtn) {
     signInBtn.addEventListener('click', (e) => {
         e.preventDefault()

@@ -3,13 +3,14 @@ const addCosplayMsg = document.querySelector('.addCosplayMsg')
 const addCosplayBtn = document.querySelector('.addCosplayBtn')
 const notRented = document.querySelector('.notRented')
 const cosplaysAdmin = document.querySelector('.cosplaysAdmin')
+const adminSearch = document.querySelector('.displaySearch')
 
 async function getAllCosplays() {
     const getAll = await fetch('http://localhost:4400/product/all')
     const result = await getAll.json()
 
     result.forEach((element) => {
-        displayCosplays.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 p-5">
+        displayCosplays.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-blue-200 shadow-md rounded-lg p-5">
         <a href="#">
             <img class="p-8 rounded-t-lg" src="${element.image}" alt="product image" />
         </a>
@@ -89,7 +90,7 @@ async function addCosplay() {
         addCosplayMsg.innerHTML = `<p class="mt-7 text-center rounded-lg text-green-500 font-bold">Created</p>`
         setTimeout(() => {
             window.location.reload()
-        }, '3000')
+        }, '2000')
         return
     } else {
         addCosplayMsg.innerHTML = `<p class="mt-7 text-center rounded-lg text-red-500 font-bold">Error !</p>`
@@ -120,7 +121,7 @@ async function getCosplayNotRented() {
     )
     const result = await apiRequest.json()
     result.forEach((element) => {
-        notRented.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-white border border-gray-200 rounded-lg     shadow:border-gray-700">
+        notRented.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-blue-200 shadow-md rounded-lg">
                     <a href="#">
                     <img class="p-8 rounded-t-lg" src="${element.image}" alt="product image" />
                     </a>
@@ -146,7 +147,7 @@ async function getAllCosplaysAdmin() {
     const getAll = await fetch('http://localhost:4400/product/all')
     const result = await getAll.json()
     result.forEach((element) => {
-        cosplaysAdmin.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 p-5">
+        cosplaysAdmin.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-blue-200 shadow-md rounded-lg shadow dark:border-gray-700 p-5">
         <a href="#">
             <img class="p-8 rounded-t-lg" src="${element.image}" alt="product image" />
         </a>
@@ -173,15 +174,23 @@ if (cosplaysAdmin) {
 }
 async function displayEdit(id) {
     const jwt = localStorage.getItem('token')
-
+    const allRentalActive = document.querySelector('.allRentalActive')
+    const allRentalArchived = document.querySelector('.allRentArchived')
     const editModal = document.querySelector('#edit')
     const createModal = document.querySelector('.addCosplay')
-    document.body.classList.add('backdrop-blur-xl')
-    document.body.classList.add('overflow-hidden')
-    // editModal.classList.remove('hidden')
+    const searchResults = document.querySelector('.searchResults')
+    const main = document.querySelector('.main')
+
+    main.classList.remove('hidden')
+    // document.body.classList.add('backdrop-blur-xl')
+    // document.body.classList.add('overflow-hidden')
+    editModal.classList.remove('hidden')
     notRented.classList.add('hidden')
     cosplaysAdmin.classList.add('hidden')
     createModal.classList.add('hidden')
+    allRentalActive.classList.add('hidden')
+    allRentalArchived.classList.add('hidden')
+    searchResults.classList.add('hidden')
 
     const request = {
         method: 'GET',
@@ -199,7 +208,7 @@ async function displayEdit(id) {
     editModal.innerHTML = `
   <div
     id="editCosplay"
-    class="lg:px-28 md:px-32 sm:px-8 lg:py-16 md:py-20 sm:py-6 py-6 px-8 my-auto mx-auto mt-8 sm:20 lg:w-2/5 rounded-lg bg-white border shadow-md max-w-xs md:max-w-none absolute h-[800px] top-16 bottom-0 left-0 right-0 h-auto overflow-auto z-10"
+    class="lg:px-28 md:px-32 sm:px-8 lg:py-16 md:py-20 sm:py-6 py-6 px-8 my-auto mx-auto mt-8 sm:20 lg:w-2/5 rounded-lg bg-blue-200 border shadow-md max-w-xs md:max-w-none absolute h-[800px] top-0 bottom-0 left-0 right-0 h-auto overflow-auto z-10"
   >
     <h2 class="text-2xl font-semibold mb-4 text-center">Edit your cosplay</h2>
     <form action="#" method="POST">
@@ -285,12 +294,12 @@ async function displayEdit(id) {
                             class="editCosplayBtn w-full p-3 bg-green-500 text-white rounded-md hover:bg-green-600">Edit
                             </button>
                         </div>
-      <p class="edit-msg"></p>
+                            <p class="edit-msg"></p>
 
-                    </form>
-      </div>
-    </form>
-  </div>`
+                        </form>
+                        </div>
+                        
+                        </div>`
 }
 
 async function deleteCosplay(id) {
@@ -308,7 +317,6 @@ async function deleteCosplay(id) {
         request
     )
     const result = await apiRequest.json()
-    console.log(result)
     window.alert('Cosplay deleted !')
     window.location.reload()
 }
@@ -354,4 +362,115 @@ async function updateCosplay(id) {
         window.location.reload()
     }, '2000')
     return
+}
+
+async function searchCosplay() {
+    const search = document.querySelector('.searchCosplay').value
+
+    const newSearch = {
+        search: search,
+    }
+    const request = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(newSearch),
+    }
+    console.log(search)
+    const getAll = await fetch('http://localhost:4400/product/search', request)
+    const result = await getAll.json()
+    displayCosplays.innerHTML = ''
+    result.forEach((element) => {
+        displayCosplays.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-blue-200 shadow-md rounded-lg shadow dark:border-gray-700 p-5">
+        <a href="#">
+            <img class="p-8 rounded-t-lg" src="${element.image}" alt="product image" />
+        </a>
+            <div class="px-5 pb-5">
+                <a href="#">
+                <h5 class="text-xl font-semibold tracking-tight text-gray-900">${element.name}</h5>
+                </a>
+                <div class="flex justify-between mt-2.5 mb-5">
+            <p class="text-blue-800 text-xs font-semibold text-left py-0.5 rounded text-blue-800">Stock: ${element.stock}</p>
+                </div>
+                <div class="flex justify-between">
+                                <label
+                                    for="reservation_start"
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Reservation start</label
+                                >
+                                <input
+                                    type="date"
+                                    name="reservation_start"
+                                    class="reservation_start-${element.cosplay_id} mt-1 p-2 w-full border rounded-md"
+                                />
+                            </div>
+                            <div class="flex justify-between">
+                                <label
+                                    for="reservation_end"
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Reservation end</label
+                                >
+                                <input
+                                    type="date"
+                                    name="reservation_end"
+                                    class="reservation_end-${element.cosplay_id} mt-1 p-2 w-full border rounded-md"
+                                />
+                            </div>
+                </div>            
+    <div class="flex items-center justify-between">
+    <span class="text-3xl font-bold text-gray-900">$${element.price}</span>
+    
+    <button href="#" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" onclick="rentCosplay(${element.cosplay_id})">Rent</button>
+</div>
+</div>
+
+    </div> `
+    })
+}
+
+async function adminSearchCosplay() {
+    const search = document.querySelector('.searchCosplay').value
+    const searchResults = document.querySelector('.searchResults')
+    const main = document.querySelector('.main')
+
+    main.classList.add('hidden')
+    searchResults.classList.remove('hidden')
+
+    const newSearch = {
+        search: search,
+    }
+    const request = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(newSearch),
+    }
+    console.log(search)
+    const getAll = await fetch('http://localhost:4400/product/search', request)
+    const result = await getAll.json()
+
+    adminSearch.innerHTML = ''
+    result.forEach((element) => {
+        adminSearch.innerHTML += `<div class="flex-nowrap w-full max-w-sm bg-blue-200 shadow-md rounded-lg shadow dark:border-gray-700 p-5">
+        <a href="#">
+            <img class="p-8 rounded-t-lg" src="${element.image}" alt="product image" />
+        </a>
+            <div class="px-5 pb-5">
+                <a href="#">
+                <h5 class="text-xl font-semibold tracking-tight text-gray-900">${element.name}</h5>
+                </a>
+                <div class="flex justify-between mt-2.5 mb-5">
+            <p class="text-blue-800 text-xs font-semibold text-left py-0.5 rounded text-blue-800">Stock: ${element.stock}</p>
+                </div>
+                </div>            
+    <div class="flex justify-between">
+    <span class="text-3xl font-bold text-gray-900">$${element.price}</span>
+    <button href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="displayEdit(${element.cosplay_id})">Update</button>
+    <button href="#" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" onclick="deleteCosplay(${element.cosplay_id})">Delete</button>
+</div>
+</div>
+    </div> `
+    })
 }
